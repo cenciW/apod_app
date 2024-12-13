@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:apod_app/model/apod.dart';
+import 'package:apod_app/pages/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
@@ -21,31 +22,66 @@ class _GetImageByAmountState extends State<GetImageByAmount> {
   int amount = 0;
 
   Future<void> _pickAmount() async {
+    final TextEditingController controller = TextEditingController();
+
     final picked = await showDialog<int>(
       context: context,
       builder: (context) {
         return SimpleDialog(
-          title: const Text('Escolha a quantidade de imagens'),
+          title: const Text('Escolha a quantidade de imagens (máximo 30)'),
           children: [
-            for (int i = 1; i <= 10; i++)
-              SimpleDialogOption(
-                onPressed: () {
-                  Navigator.pop(context, i);
-                },
-                child: Text('$i'),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: TextField(
+                controller: controller,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  hintText: 'Digite a quantidade de imagens',
+                ),
               ),
+            ),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context); // Fecha sem retornar valor
+                  },
+                  child: const Text('Cancelar'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    final int? picked = int.tryParse(controller.text);
+                    if (picked != null && picked <= 30) {
+                      Navigator.pop(context, picked); // Retorna o valor
+                    } else {
+                      // Mostrar mensagem de erro ou validação
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content: Text('Digite um número válido (1-30)!')),
+                      );
+                    }
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            ),
           ],
         );
       },
     );
 
     if (picked != null) {
+      // Use a quantidade selecionada (picked)
       setState(() {
         amount = picked;
-        images = null;
-        errorMessage = null;
       });
       _fetchImages();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Nenhuma quantidade selecionada')),
+      );
     }
   }
 
@@ -106,22 +142,7 @@ class _GetImageByAmountState extends State<GetImageByAmount> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        //green color
-        backgroundColor: Colors.green,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'android/icons/icons8-nasa-96.png',
-              height: 48,
-            ),
-            const SizedBox(width: 8),
-            const Text('Imagens por quantidade'),
-          ],
-        ),
-        centerTitle: true,
-      ),
+      appBar: const CustomAppBar(title: 'Imagens por quantidade'),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

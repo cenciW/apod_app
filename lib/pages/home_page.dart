@@ -1,3 +1,4 @@
+import 'package:apod_app/pages/custom_app_bar.dart';
 import 'package:apod_app/pages/get_image_amount.dart';
 import 'package:apod_app/pages/get_image_day.dart';
 import 'package:apod_app/pages/get_image_two_dates.dart';
@@ -14,22 +15,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        //green color
-        backgroundColor: Colors.green,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'android/icons/icons8-nasa-96.png',
-              height: 48,
-            ),
-            const SizedBox(width: 8),
-            const Text('NASA Picture of the Day'),
-          ],
-        ),
-        centerTitle: true,
-      ),
+      appBar: const CustomAppBar(title: 'NASA Picture of the Day'),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Center(

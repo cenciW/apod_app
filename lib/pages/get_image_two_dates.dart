@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:apod_app/pages/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
@@ -98,22 +99,7 @@ class _GetImageTwoDatesState extends State<GetImageTwoDates> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        //green color
-        backgroundColor: Colors.green,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'android/icons/icons8-nasa-96.png',
-              height: 48,
-            ),
-            const SizedBox(width: 8),
-            const Text('Imagens entre datas'),
-          ],
-        ),
-        centerTitle: true,
-      ),
+      appBar: const CustomAppBar(title: 'Imagens entre datas'),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
