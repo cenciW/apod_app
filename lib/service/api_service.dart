@@ -12,18 +12,6 @@ class ApiServiceImpl implements ApiService {
 
   ApiServiceImpl(this.baseUrl);
 
-  // @override
-  // Future<dynamic> fetchImageByDate(String date) async {
-  //   final response = await http.get(Uri.parse('$baseUrl/APOD/image/$date'));
-  //   //by hands no use the library http
-  //   // final response = fetch()
-
-  //   if (response.statusCode == 200) {
-  //     return jsonDecode(response.body);
-  //   } else {
-  //     throw Exception('Failed to fetch image for date: $date');
-  //   }
-  // }
   @override
   Future<dynamic> fetchImageByDate(String date) async {
     try {
