@@ -5,6 +5,8 @@ class Apod {
 
   Apod({required this.title, required this.explanation, required this.url});
 
+  static String baseUrl = 'http://192.168.1.75:5000/api/APOD';
+
   factory Apod.fromJson(Map<String, dynamic> json) {
     return Apod(
       title:

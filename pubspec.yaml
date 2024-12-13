@@ -38,6 +38,7 @@ dependencies:
   intl: ^0.20.1
   get_it: ^7.6.0
   flutter_launcher_icons: ^0.13.0
+  go_router: ^14.6.2
 
 dev_dependencies:
   flutter_test:
@@ -71,6 +72,11 @@ flutter:
   assets:
     - android/icons/icons8-nasa-96.png
     - android/icons/icons8-nasa-480.png
+    - android/icons/image.png
+    - android/icons/space_background.png
+    - android/icons/space_bck.png
+    - android/icons/space_count.png
+    - android/icons/space_home.gif
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 

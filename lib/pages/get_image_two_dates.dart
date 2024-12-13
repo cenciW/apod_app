@@ -31,9 +31,9 @@ class _GetImageTwoDatesState extends State<GetImageTwoDates> {
         return Theme(
           data: ThemeData.light().copyWith(
             colorScheme: ColorScheme.light(
-              primary: Colors.green,
+              primary: Colors.blue,
               onPrimary: Colors.white,
-              surface: Colors.green,
+              surface: Colors.blue,
               onSurface: Colors.black,
             ),
             dialogBackgroundColor: Colors.white,
@@ -70,7 +70,7 @@ class _GetImageTwoDatesState extends State<GetImageTwoDates> {
     final String start = DateFormat('yyyy-MM-dd').format(startDate!);
     final String end = DateFormat('yyyy-MM-dd').format(endDate!);
 
-    final String url = "http://10.0.2.2:5000/api/APOD/images/$start/$end";
+    final String url = "${Apod.baseUrl}images/$start/$end";
 
     try {
       final http.Response response = await http.get(Uri.parse(url));
@@ -114,114 +114,124 @@ class _GetImageTwoDatesState extends State<GetImageTwoDates> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(title: 'Imagens entre datas'),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
-                foregroundColor: Colors.white,
-              ),
-              onPressed: _pickDateRange,
-              child: const Text(
-                'Escolher intervalo de datas',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('android/icons/space_background.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  foregroundColor: Colors.white,
+                ),
+                onPressed: _pickDateRange,
+                child: const Text(
+                  'Escolher intervalo de datas',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20.0,
+                  ),
                 ),
               ),
-            ),
-            if (isLoading) ...[
-              const SizedBox(height: 20),
-              const CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
-              ),
-            ],
-            if (errorMessage != null) ...[
-              const SizedBox(height: 20),
-              Text('Erro: $errorMessage',
-                  style: const TextStyle(color: Colors.red)),
-            ],
-            if (images != null && images!.isNotEmpty) ...[
-              const SizedBox(height: 20),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: images!.length,
-                  itemBuilder: (context, index) {
-                    final image = images![index];
-                    return Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                        side: const BorderSide(color: Colors.green, width: 0.9),
-                      ),
-                      elevation: 10,
-                      shadowColor: Color(Colors.green.value),
-                      margin: const EdgeInsets.all(8.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15.0),
-                        child: Column(
-                          children: [
-                            if (image.url.isNotEmpty &&
-                                Uri.tryParse(image.url)?.hasAbsolutePath ==
-                                    true)
-                              Image.network(
-                                image.url,
-                                height: 200,
-                                width: double.infinity,
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return const Text('Erro ao carregar imagem');
-                                },
-                              ),
-                            if (image.url.isEmpty ||
-                                Uri.tryParse(image.url)?.hasAbsolutePath !=
-                                    true)
-                              const Text('Imagem inválida ou não disponível'),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                image.title.isNotEmpty
-                                    ? image.title
-                                    : 'Sem título',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                image.explanation.isNotEmpty
-                                    ? image.explanation
-                                    : 'Sem descrição',
-                              ),
-                            ),
-                          ],
+              if (isLoading) ...[
+                const SizedBox(height: 20),
+                const CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                ),
+              ],
+              if (errorMessage != null) ...[
+                const SizedBox(height: 20),
+                Text('Erro: $errorMessage',
+                    style: const TextStyle(color: Colors.red)),
+              ],
+              if (images != null && images!.isNotEmpty) ...[
+                const SizedBox(height: 20),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: images!.length,
+                    itemBuilder: (context, index) {
+                      final image = images![index];
+                      return Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                          side:
+                              const BorderSide(color: Colors.blue, width: 0.9),
                         ),
-                      ),
-                    );
-                  },
+                        elevation: 10,
+                        shadowColor: Color(Colors.blue.value),
+                        margin: const EdgeInsets.all(8.0),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(15.0),
+                          child: Column(
+                            children: [
+                              if (image.url.isNotEmpty &&
+                                  Uri.tryParse(image.url)?.hasAbsolutePath ==
+                                      true)
+                                Image.network(
+                                  image.url,
+                                  height: 200,
+                                  width: double.infinity,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return const Text(
+                                        'Erro ao carregar imagem');
+                                  },
+                                ),
+                              if (image.url.isEmpty ||
+                                  Uri.tryParse(image.url)?.hasAbsolutePath !=
+                                      true)
+                                const Text('Imagem inválida ou não disponível'),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  image.title.isNotEmpty
+                                      ? image.title
+                                      : 'Sem título',
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  image.explanation.isNotEmpty
+                                      ? image.explanation
+                                      : 'Sem descrição',
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+              const SizedBox(height: 20),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  foregroundColor: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text(
+                  'Voltar',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20.0,
+                  ),
                 ),
               ),
             ],
-            const SizedBox(height: 20),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.green,
-                foregroundColor: Colors.white,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text(
-                'Voltar',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
