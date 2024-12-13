@@ -4,7 +4,6 @@ import 'package:apod_app/pages/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 
 import '../model/apod.dart';
 import '../service/api_service.dart'; // Para formatar as datas
@@ -69,7 +68,13 @@ class GetImageDayState extends State<GetImageDay> {
                 foregroundColor: Colors.white,
               ),
               onPressed: _fetchImages,
-              child: const Text('Obter imagem do dia'),
+              child: const Text(
+                'Obter imagem do dia',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
+                ),
+              ),
             ),
             if (isLoading) ...[
               const SizedBox(height: 20),
@@ -87,7 +92,7 @@ class GetImageDayState extends State<GetImageDay> {
               Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.0),
-                  side: BorderSide(color: Colors.green, width: 0.9),
+                  side: const BorderSide(color: Colors.green, width: 0.9),
                 ),
                 elevation: 10,
                 shadowColor: Color(Colors.green.value),
@@ -132,7 +137,13 @@ class GetImageDayState extends State<GetImageDay> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Voltar'),
+              child: const Text(
+                'Voltar',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
+                ),
+              ),
             ),
           ],
         ),

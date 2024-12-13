@@ -21,7 +21,7 @@ class ApiServiceImpl implements ApiService {
         throw Exception('Request to $baseUrl/image/$date timed out');
       });
 
-      print('Request URL: $baseUrl/image/$date');
+      // print('Request URL: $baseUrl/image/$date');
 
       if (response.statusCode == 200) {
         return jsonDecode(response.body);

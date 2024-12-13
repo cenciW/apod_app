@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 import '../service/api_service.dart';
 
 class GetImageByAmount extends StatefulWidget {
-  const GetImageByAmount({Key? key}) : super(key: key);
+  const GetImageByAmount({super.key});
   @override
   _GetImageByAmountState createState() => _GetImageByAmountState();
 }
@@ -48,7 +48,13 @@ class _GetImageByAmountState extends State<GetImageByAmount> {
                   onPressed: () {
                     Navigator.pop(context); // Fecha sem retornar valor
                   },
-                  child: const Text('Cancelar'),
+                  child: const Text(
+                    'Cancelar',
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontSize: 20.0,
+                    ),
+                  ),
                 ),
                 TextButton(
                   onPressed: () {
@@ -63,7 +69,13 @@ class _GetImageByAmountState extends State<GetImageByAmount> {
                       );
                     }
                   },
-                  child: const Text('OK'),
+                  child: const Text(
+                    'OK',
+                    style: TextStyle(
+                      color: Colors.green,
+                      fontSize: 20.0,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -153,7 +165,13 @@ class _GetImageByAmountState extends State<GetImageByAmount> {
                 foregroundColor: Colors.white,
               ),
               onPressed: _pickAmount,
-              child: const Text('Escolha a quantidade de imagens'),
+              child: const Text(
+                'Escolha a quantidade de imagens',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
+                ),
+              ),
             ),
             if (isLoading) ...[
               const SizedBox(height: 20),
@@ -176,7 +194,7 @@ class _GetImageByAmountState extends State<GetImageByAmount> {
                     return Card(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15.0),
-                        side: BorderSide(color: Colors.green, width: 0.9),
+                        side: const BorderSide(color: Colors.green, width: 0.9),
                       ),
                       elevation: 10,
                       shadowColor: Color(Colors.green.value),
@@ -236,7 +254,13 @@ class _GetImageByAmountState extends State<GetImageByAmount> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Voltar'),
+              child: const Text(
+                'Voltar',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
+                ),
+              ),
             ),
           ],
         ),

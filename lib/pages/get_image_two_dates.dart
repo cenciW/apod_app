@@ -9,7 +9,7 @@ import '../model/apod.dart';
 import '../service/api_service.dart';
 
 class GetImageTwoDates extends StatefulWidget {
-  const GetImageTwoDates({Key? key}) : super(key: key);
+  const GetImageTwoDates({super.key});
   @override
   _GetImageTwoDatesState createState() => _GetImageTwoDatesState();
 }
@@ -27,6 +27,20 @@ class _GetImageTwoDatesState extends State<GetImageTwoDates> {
       context: context,
       firstDate: DateTime(2000),
       lastDate: DateTime.now(),
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: ColorScheme.light(
+              primary: Colors.green,
+              onPrimary: Colors.white,
+              surface: Colors.green,
+              onSurface: Colors.black,
+            ),
+            dialogBackgroundColor: Colors.white,
+          ),
+          child: child!,
+        );
+      },
     );
     if (picked != null) {
       setState(() {
@@ -110,7 +124,13 @@ class _GetImageTwoDatesState extends State<GetImageTwoDates> {
                 foregroundColor: Colors.white,
               ),
               onPressed: _pickDateRange,
-              child: const Text('Escolher intervalo de datas'),
+              child: const Text(
+                'Escolher intervalo de datas',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
+                ),
+              ),
             ),
             if (isLoading) ...[
               const SizedBox(height: 20),
@@ -133,7 +153,7 @@ class _GetImageTwoDatesState extends State<GetImageTwoDates> {
                     return Card(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15.0),
-                        side: BorderSide(color: Colors.green, width: 0.9),
+                        side: const BorderSide(color: Colors.green, width: 0.9),
                       ),
                       elevation: 10,
                       shadowColor: Color(Colors.green.value),
@@ -193,7 +213,13 @@ class _GetImageTwoDatesState extends State<GetImageTwoDates> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: const Text('Voltar'),
+              child: const Text(
+                'Voltar',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20.0,
+                ),
+              ),
             ),
           ],
         ),

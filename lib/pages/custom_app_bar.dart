@@ -5,10 +5,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Color backgroundColor;
 
   const CustomAppBar({
-    Key? key,
+    super.key,
     required this.title,
     this.backgroundColor = Colors.green, // Default color
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             height: 48,
           ),
           const SizedBox(width: 8),
-          Text(title),
+          Text(
+            title,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
         ],
       ),
       centerTitle: true,
