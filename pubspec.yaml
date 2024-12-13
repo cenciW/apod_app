@@ -37,6 +37,7 @@ dependencies:
   http: ^1.2.2
   intl: ^0.20.1
   get_it: ^7.6.0
+  flutter_launcher_icons: ^0.13.0
 
 dev_dependencies:
   flutter_test:
@@ -51,6 +52,13 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "android/icons/icons8-nasa-96.png"
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "android/icons/icons8-nasa-96.png"
+  icon_size: 48
 
 # The following section is specific to Flutter packages.
 flutter:
@@ -62,6 +70,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - android/icons/icons8-nasa-96.png
+    - android/icons/icons8-nasa-480.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 
