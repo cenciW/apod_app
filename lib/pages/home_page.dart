@@ -95,10 +95,11 @@
 //   }
 // }
 
-import 'package:apod_app/pages/custom_app_bar.dart';
+import 'package:apod_app/widgets/custom_app_bar.dart';
 import 'package:apod_app/pages/get_image_amount.dart';
 import 'package:apod_app/pages/get_image_day.dart';
 import 'package:apod_app/pages/get_image_two_dates.dart';
+import 'package:apod_app/widgets/background.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -112,15 +113,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: 'NASA Picture of the Day'),
-      body: Container(
-        // Add gradient background here
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('android/icons/space_home.gif'),
-            fit: BoxFit.cover,
-          ),
-        ),
+      appBar: const CustomAppBar(title: 'NASA App'),
+      body: Background(
+        imagePath: 'android/icons/space_home.gif',
         child: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Center(

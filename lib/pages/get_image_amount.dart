@@ -1,7 +1,8 @@
 import 'dart:convert';
 
 import 'package:apod_app/model/apod.dart';
-import 'package:apod_app/pages/custom_app_bar.dart';
+import 'package:apod_app/widgets/custom_app_bar.dart';
+import 'package:apod_app/widgets/background.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
@@ -155,13 +156,8 @@ class _GetImageByAmountState extends State<GetImageByAmount> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(title: 'Imagens por quantidade'),
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('android/icons/space_count.png'),
-            fit: BoxFit.cover,
-          ),
-        ),
+      body: Background(
+        imagePath: 'android/icons/space_count.png',
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

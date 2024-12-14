@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-import 'package:apod_app/pages/custom_app_bar.dart';
+import 'package:apod_app/widgets/custom_app_bar.dart';
+import 'package:apod_app/widgets/background.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
@@ -63,13 +64,8 @@ class GetImageDayState extends State<GetImageDay> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(title: 'Imagem do dia'),
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('android/icons/image.png'),
-            fit: BoxFit.cover,
-          ),
-        ),
+      body: Background(
+        imagePath: 'android/icons/image.png',
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
