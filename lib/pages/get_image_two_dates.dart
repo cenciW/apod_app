@@ -1,5 +1,6 @@
 import 'dart:convert';
-import 'package:apod_app/pages/custom_app_bar.dart';
+import 'package:apod_app/widgets/custom_app_bar.dart';
+import 'package:apod_app/widgets/background.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
@@ -24,24 +25,36 @@ class _GetImageTwoDatesState extends State<GetImageTwoDates> {
 
   Future<void> _pickDateRange() async {
     final picked = await showDateRangePicker(
+      barrierColor: Color(Colors.white.value),
       context: context,
       firstDate: DateTime(2000),
       lastDate: DateTime.now(),
       builder: (context, child) {
         return Theme(
           data: ThemeData.light().copyWith(
-            colorScheme: ColorScheme.light(
+            colorScheme: const ColorScheme.light(
               primary: Colors.blue,
               onPrimary: Colors.white,
-              surface: Colors.blue,
-              onSurface: Colors.black,
+              surface: Colors.transparent,
+              onSurface: Colors.white,
+              //text white
             ),
-            dialogBackgroundColor: Colors.white,
+            dialogBackgroundColor: Colors.transparent,
+            scaffoldBackgroundColor: Colors.transparent,
           ),
-          child: child!,
+          child: Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('android/icons/space_background.png'),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: child!,
+          ),
         );
       },
     );
+
     if (picked != null) {
       setState(() {
         startDate = picked.start;
@@ -114,13 +127,8 @@ class _GetImageTwoDatesState extends State<GetImageTwoDates> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(title: 'Imagens entre datas'),
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('android/icons/space_background.png'),
-            fit: BoxFit.cover,
-          ),
-        ),
+      body: Background(
+        imagePath: 'android/icons/space_background.png',
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
