@@ -70,7 +70,7 @@ class _GetImageTwoDatesState extends State<GetImageTwoDates> {
     final String start = DateFormat('yyyy-MM-dd').format(startDate!);
     final String end = DateFormat('yyyy-MM-dd').format(endDate!);
 
-    final String url = "${Apod.baseUrl}images/$start/$end";
+    final String url = "${Apod.baseUrl}/images/$start/$end";
 
     try {
       final http.Response response = await http.get(Uri.parse(url));

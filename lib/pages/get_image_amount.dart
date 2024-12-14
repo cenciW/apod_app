@@ -111,7 +111,7 @@ class _GetImageByAmountState extends State<GetImageByAmount> {
       errorMessage = null;
     });
 
-    final String url = "$Apod.baseUrl" "/random/$amount";
+    final String url = "${Apod.baseUrl}/random/$amount";
 
     try {
       final http.Response response = await http.get(Uri.parse(url));
