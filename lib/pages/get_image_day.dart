@@ -38,9 +38,15 @@ class GetImageDayState extends State<GetImageDay> {
               Apod.fromJson(jsonDecode(response.body)); // Usando APOD.fromJson
         });
       } else {
-        setState(() {
-          errorMessage = 'Erro ao buscar imagens: ${response.statusCode}';
-        });
+        if (response.statusCode == 404) {
+          setState(() {
+            errorMessage = 'Imagem não encontrada para a data de hoje.';
+          });
+        } else {
+          setState(() {
+            errorMessage = 'Erro ao buscar imagens: ${response.statusCode}';
+          });
+        }
       }
     } catch (e) {
       setState(() {
