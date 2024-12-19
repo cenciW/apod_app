@@ -100,41 +100,48 @@ class GetImageDayState extends State<GetImageDay> {
               ],
               if (image != null) ...[
                 const SizedBox(height: 20),
-                Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                    side: const BorderSide(color: Colors.blue, width: 0.9),
-                  ),
-                  elevation: 10,
-                  shadowColor: Color(Colors.blue.value),
-                  margin: const EdgeInsets.all(8.0),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(15.0),
-                    child: Column(
-                      children: [
-                        if (image!.url.isNotEmpty)
-                          Image.network(
-                            image!.url,
-                            height: 200,
-                            width: double.infinity,
-                            fit: BoxFit.cover,
-                          ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            image!.title.isNotEmpty ? image!.title : 'No title',
-                            style: const TextStyle(fontWeight: FontWeight.bold),
-                          ),
+                Flexible(
+                  child: SingleChildScrollView(
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                        side: const BorderSide(color: Colors.blue, width: 0.9),
+                      ),
+                      elevation: 10,
+                      shadowColor: Color(Colors.blue.value),
+                      margin: const EdgeInsets.all(8.0),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(15.0),
+                        child: Column(
+                          children: [
+                            if (image!.url.isNotEmpty)
+                              Image.network(
+                                image!.url,
+                                height: 200,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                              ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                image!.title.isNotEmpty
+                                    ? image!.title
+                                    : 'No title',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                image!.explanation.isNotEmpty
+                                    ? image!.explanation
+                                    : 'Sem descrição',
+                              ),
+                            ),
+                          ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            image!.explanation.isNotEmpty
-                                ? image!.explanation
-                                : 'Sem descrição',
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
                 ),

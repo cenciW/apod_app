@@ -34,9 +34,9 @@ class _GetImageTwoDatesState extends State<GetImageTwoDates> {
           data: ThemeData.light().copyWith(
             colorScheme: const ColorScheme.light(
               primary: Colors.blue,
-              onPrimary: Colors.white,
+              onPrimary: Colors.black,
               surface: Colors.transparent,
-              onSurface: Colors.white,
+              onSurface: Colors.black,
               //text white
             ),
             dialogBackgroundColor: Colors.transparent,
@@ -44,10 +44,7 @@ class _GetImageTwoDatesState extends State<GetImageTwoDates> {
           ),
           child: Container(
             decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('android/icons/space_background.png'),
-                fit: BoxFit.cover,
-              ),
+              color: Colors.white,
             ),
             child: child!,
           ),
