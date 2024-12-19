@@ -1,11 +1,10 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:apod_app/widgets/custom_app_bar.dart';
 import 'package:apod_app/widgets/background.dart';
+import 'package:apod_app/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
-import 'package:http/http.dart' as http;
 
 import '../model/apod.dart';
 import '../service/api_service.dart';
@@ -78,47 +77,18 @@ class _GetImageTwoDatesState extends State<GetImageTwoDates> {
       errorMessage = null;
     });
 
-    final String start = DateFormat('yyyy-MM-dd').format(startDate!);
-    final String end = DateFormat('yyyy-MM-dd').format(endDate!);
-
-    final String url = "${Apod.baseUrl}/images/$start/$end";
-
     try {
-      final http.Response response = await http.get(Uri.parse(url)).timeout(
-        const Duration(seconds: 15),
-        onTimeout: () {
-          throw TimeoutException('Tempo de conexão expirado.');
-        },
-      );
-      ;
+      final String start = DateFormat('yyyy-MM-dd').format(startDate!);
+      final String end = DateFormat('yyyy-MM-dd').format(endDate!);
 
-      if (response.statusCode == 200) {
-        final String responseBody = response.body;
+      final response = await apiService.fetchImagesInRange(start, end);
 
-        if (responseBody.isNotEmpty && responseBody != "null") {
-          try {
-            final List data = json.decode(responseBody);
-            setState(() {
-              images = data.map((e) => Apod.fromJson(e)).toList();
-            });
-          } catch (e) {
-            setState(() {
-              errorMessage = 'Erro ao processar dados da API: $e';
-            });
-          }
-        } else {
-          setState(() {
-            errorMessage = 'Resposta vazia ou inválida da API.';
-          });
-        }
-      } else {
-        setState(() {
-          errorMessage = 'Erro ao buscar imagens: ${response.statusCode}';
-        });
-      }
+      setState(() {
+        images = response.map((e) => Apod.fromJson(e)).toList();
+      });
     } catch (e) {
       setState(() {
-        errorMessage = 'Erro ao buscar imagens: $e';
+        errorMessage = '$e';
       });
     } finally {
       setState(() {
@@ -139,20 +109,9 @@ class _GetImageTwoDatesState extends State<GetImageTwoDates> {
             children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    foregroundColor: Colors.white,
-                  ),
-                  onPressed: _pickDateRange,
-                  child: const Text(
-                    'Escolher intervalo de datas',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20.0,
-                    ),
-                  ),
-                ),
+                child: CustomElevatedButton(
+                    text: "Escolha o intervalo de datas",
+                    onPressed: _pickDateRange),
               ),
               if (isLoading) ...[
                 const SizedBox(height: 20),
@@ -162,8 +121,24 @@ class _GetImageTwoDatesState extends State<GetImageTwoDates> {
               ],
               if (errorMessage != null) ...[
                 const SizedBox(height: 20),
-                Text('Erro: $errorMessage',
-                    style: const TextStyle(color: Colors.red)),
+                if (errorMessage!.isNotEmpty)
+                  Card(
+                    color: Colors.redAccent,
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Text(
+                        errorMessage ?? '',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                const SizedBox(height: 20),
               ],
               if (images != null && images!.isNotEmpty) ...[
                 const SizedBox(height: 20),
@@ -231,21 +206,11 @@ class _GetImageTwoDatesState extends State<GetImageTwoDates> {
               const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 20.0),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    foregroundColor: Colors.white,
-                  ),
+                child: CustomElevatedButton(
+                  text: "Voltar",
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: const Text(
-                    'Voltar',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20.0,
-                    ),
-                  ),
                 ),
               ),
             ],

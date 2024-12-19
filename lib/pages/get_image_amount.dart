@@ -1,12 +1,10 @@
 import 'dart:async';
-import 'dart:convert';
-
 import 'package:apod_app/model/apod.dart';
 import 'package:apod_app/widgets/custom_app_bar.dart';
 import 'package:apod_app/widgets/background.dart';
+import 'package:apod_app/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:http/http.dart' as http;
 
 import '../service/api_service.dart';
 
@@ -113,43 +111,23 @@ class _GetImageByAmountState extends State<GetImageByAmount> {
       errorMessage = null;
     });
 
-    final String url = "${Apod.baseUrl}/random/$amount";
-
     try {
-      final http.Response response = await http.get(Uri.parse(url)).timeout(
-        const Duration(seconds: 15),
-        onTimeout: () {
-          throw TimeoutException('Tempo de conexão expirado.');
-        },
-      );
+      final response = await apiService.fetchRandomImages(amount);
 
-      if (response.statusCode == 200) {
-        final String responseBody = response.body;
-
-        if (responseBody.isNotEmpty && responseBody != "null") {
-          try {
-            final List data = json.decode(responseBody);
-            setState(() {
-              images = data.map((e) => Apod.fromJson(e)).toList();
-            });
-          } catch (e) {
-            setState(() {
-              errorMessage = 'Erro ao processar dados da API: $e';
-            });
-          }
-        } else {
-          setState(() {
-            errorMessage = 'Resposta vazia ou inválida da API.';
-          });
-        }
+      if (response.isNotEmpty && response != "null") {
+        setState(() {
+          images = List<Apod>.from(
+            response.map((model) => Apod.fromJson(model)),
+          );
+        });
       } else {
         setState(() {
-          errorMessage = 'Erro ao buscar imagens: ${response.statusCode}';
+          errorMessage = 'Nenhuma imagem encontrada.';
         });
       }
     } catch (e) {
       setState(() {
-        errorMessage = 'Erro ao buscar imagens: $e';
+        errorMessage = '$e';
       });
     } finally {
       setState(() {
@@ -170,19 +148,9 @@ class _GetImageByAmountState extends State<GetImageByAmount> {
             children: [
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    foregroundColor: Colors.white,
-                  ),
+                child: CustomElevatedButton(
+                  text: "Escolha a quantidade de imagens (1-30)",
                   onPressed: _pickAmount,
-                  child: const Text(
-                    'Escolha a quantidade de imagens',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20.0,
-                    ),
-                  ),
                 ),
               ),
               if (isLoading) ...[
@@ -193,8 +161,24 @@ class _GetImageByAmountState extends State<GetImageByAmount> {
               ],
               if (errorMessage != null) ...[
                 const SizedBox(height: 20),
-                Text('Erro: $errorMessage',
-                    style: const TextStyle(color: Colors.red)),
+                if (errorMessage!.isNotEmpty)
+                  Card(
+                    color: Colors.redAccent,
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Text(
+                        errorMessage ?? '',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                const SizedBox(height: 20),
               ],
               if (images != null && images!.isNotEmpty) ...[
                 const SizedBox(height: 20),
@@ -262,21 +246,11 @@ class _GetImageByAmountState extends State<GetImageByAmount> {
               const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    foregroundColor: Colors.white,
-                  ),
+                child: CustomElevatedButton(
+                  text: "Voltar",
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: const Text(
-                    'Voltar',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20.0,
-                    ),
-                  ),
                 ),
               ),
             ],

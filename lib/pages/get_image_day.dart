@@ -1,11 +1,10 @@
 import 'dart:async';
-import 'dart:convert';
-
 import 'package:apod_app/widgets/custom_app_bar.dart';
 import 'package:apod_app/widgets/background.dart';
+import 'package:apod_app/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 import '../model/apod.dart';
 import '../service/api_service.dart'; // Para formatar as datas
@@ -31,36 +30,16 @@ class GetImageDayState extends State<GetImageDay> {
     });
 
     try {
-      final response = await http
-          .get(Uri.parse(
-              '${Apod.baseUrl}/image/${today!.year}-${today!.month}-${today!.day}'))
-          .timeout(
-        const Duration(seconds: 15),
-        onTimeout: () {
-          throw TimeoutException('Tempo de conexão expirado.');
-        },
-      );
-      ;
+      final formattedDate = DateFormat('yyyy-MM-dd').format(today!);
+      final jsonData = await apiService.fetchImageByDate(formattedDate);
 
-      if (response.statusCode == 200) {
-        setState(() {
-          image =
-              Apod.fromJson(jsonDecode(response.body)); // Usando APOD.fromJson
-        });
-      } else {
-        if (response.statusCode == 404) {
-          setState(() {
-            errorMessage = 'Imagem não encontrada para a data de hoje.';
-          });
-        } else {
-          setState(() {
-            errorMessage = 'Erro ao buscar imagens: ${response.statusCode}';
-          });
-        }
-      }
+      setState(() {
+        // Converte o JSON para o objeto Apod
+        image = Apod.fromJson(jsonData);
+      });
     } catch (e) {
       setState(() {
-        errorMessage = 'Erro ao buscar imagens: $e';
+        errorMessage = '$e';
       });
     } finally {
       setState(() {
@@ -80,22 +59,11 @@ class GetImageDayState extends State<GetImageDay> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    foregroundColor: Colors.white,
-                  ),
-                  onPressed: _fetchImages,
-                  child: const Text(
-                    'Obter imagem do dia',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20.0,
-                    ),
-                  ),
-                ),
-              ),
+                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                  child: CustomElevatedButton(
+                    text: 'Buscar imagem do dia',
+                    onPressed: _fetchImages,
+                  )),
               if (isLoading) ...[
                 const SizedBox(height: 20),
                 const CircularProgressIndicator(
@@ -104,8 +72,24 @@ class GetImageDayState extends State<GetImageDay> {
               ],
               if (errorMessage != null) ...[
                 const SizedBox(height: 20),
-                Text('Erro: $errorMessage',
-                    style: const TextStyle(color: Colors.red)),
+                if (errorMessage!.isNotEmpty)
+                  Card(
+                    color: Colors.redAccent,
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Text(
+                        errorMessage ?? '',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                const SizedBox(height: 20),
               ],
               if (image != null) ...[
                 const SizedBox(height: 20),
@@ -158,21 +142,11 @@ class GetImageDayState extends State<GetImageDay> {
               const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 20),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    foregroundColor: Colors.white,
-                  ),
+                child: CustomElevatedButton(
+                  text: "Voltar",
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: const Text(
-                    'Voltar',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20.0,
-                    ),
-                  ),
                 ),
               ),
             ],

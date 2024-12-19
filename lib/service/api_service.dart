@@ -18,7 +18,8 @@ class ApiServiceImpl implements ApiService {
       final response = await http
           .get(Uri.parse('$baseUrl/image/$date'))
           .timeout(const Duration(seconds: 10), onTimeout: () {
-        throw Exception('Request to $baseUrl/image/$date timed out');
+        throw Exception(
+            'Requisição para $baseUrl/image/$date expirou após 10s');
       });
 
       // print('Request URL: $baseUrl/image/$date');
@@ -27,10 +28,10 @@ class ApiServiceImpl implements ApiService {
         return jsonDecode(response.body);
       } else {
         throw Exception(
-            'Failed to fetch image for date: $date, status: ${response.statusCode}');
+            'Falha ao buscar imagem do dia: $date, codigo: ${response.statusCode}');
       }
     } catch (e) {
-      throw Exception('Error during API call: $e');
+      throw Exception('Erro ao chamar a API: $e');
     }
   }
 
@@ -42,7 +43,7 @@ class ApiServiceImpl implements ApiService {
     if (response.statusCode == 200) {
       return List<dynamic>.from(jsonDecode(response.body));
     } else {
-      throw Exception('Failed to fetch images between $startDate and $endDate');
+      throw Exception('Falha ao buscar imagens entre $startDate e $endDate');
     }
   }
 
@@ -52,7 +53,7 @@ class ApiServiceImpl implements ApiService {
     if (response.statusCode == 200) {
       return List<dynamic>.from(jsonDecode(response.body));
     } else {
-      throw Exception('Failed to fetch $amount random images');
+      throw Exception('Falha ao buscar $amount imagens aleatórias');
     }
   }
 }
