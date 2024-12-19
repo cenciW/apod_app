@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:apod_app/model/apod.dart';
@@ -115,7 +116,12 @@ class _GetImageByAmountState extends State<GetImageByAmount> {
     final String url = "${Apod.baseUrl}/random/$amount";
 
     try {
-      final http.Response response = await http.get(Uri.parse(url));
+      final http.Response response = await http.get(Uri.parse(url)).timeout(
+        const Duration(seconds: 15),
+        onTimeout: () {
+          throw TimeoutException('Tempo de conexão expirado.');
+        },
+      );
 
       if (response.statusCode == 200) {
         final String responseBody = response.body;

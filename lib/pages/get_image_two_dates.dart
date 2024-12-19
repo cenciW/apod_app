@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:apod_app/widgets/custom_app_bar.dart';
 import 'package:apod_app/widgets/background.dart';
@@ -83,7 +84,13 @@ class _GetImageTwoDatesState extends State<GetImageTwoDates> {
     final String url = "${Apod.baseUrl}/images/$start/$end";
 
     try {
-      final http.Response response = await http.get(Uri.parse(url));
+      final http.Response response = await http.get(Uri.parse(url)).timeout(
+        const Duration(seconds: 15),
+        onTimeout: () {
+          throw TimeoutException('Tempo de conexão expirado.');
+        },
+      );
+      ;
 
       if (response.statusCode == 200) {
         final String responseBody = response.body;

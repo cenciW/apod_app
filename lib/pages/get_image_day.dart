@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:apod_app/widgets/custom_app_bar.dart';
@@ -30,8 +31,16 @@ class GetImageDayState extends State<GetImageDay> {
     });
 
     try {
-      final response = await http.get(Uri.parse(
-          '${Apod.baseUrl}/image/${today!.year}-${today!.month}-${today!.day}'));
+      final response = await http
+          .get(Uri.parse(
+              '${Apod.baseUrl}/image/${today!.year}-${today!.month}-${today!.day}'))
+          .timeout(
+        const Duration(seconds: 15),
+        onTimeout: () {
+          throw TimeoutException('Tempo de conexão expirado.');
+        },
+      );
+      ;
 
       if (response.statusCode == 200) {
         setState(() {
