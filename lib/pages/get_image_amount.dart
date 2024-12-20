@@ -149,7 +149,7 @@ class _GetImageByAmountState extends State<GetImageByAmount> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                 child: CustomElevatedButton(
-                  text: "Escolha a quantidade de imagens (1-30)",
+                  text: "Escolha a quantidade de imagens",
                   onPressed: _pickAmount,
                 ),
               ),
