@@ -19,27 +19,27 @@ Verificar o IP e colocar o seu localhost na pasta: `lib\model\apod.dart` -> Vari
 
 ### API C# Swagger
 
-![Swagger](screenshots/image.png)
+<img src="screenshots/image.png" width="300">
 
 ### Home Page
 
-![HomePage](screenshots/flutter_01.png)
+<img src="screenshots/flutter_01.png" width="300">
 
 ### Imagem do Dia
 
-![Imagem do Dia 1](screenshots/flutter_02.png)
-![Imagem do Dia 2](screenshots/flutter_03.png)
+<img src="screenshots/flutter_02.png" width="300">
+<img src="screenshots/flutter_03.png" width="300">
 
 ### Imagens entre Datas
 
-![Imagens entre datas 1](screenshots/flutter_04.png)
-![Imagens entre datas 2](screenshots/flutter_05.png)
-![Imagens entre datas 3](screenshots/flutter_06.png)
-![Imagens entre datas 4](screenshots/flutter_07.png)
-![Imagens entre datas 5](screenshots/flutter_08.png)
+<img src="screenshots/flutter_04.png" width="300">
+<img src="screenshots/flutter_05.png" width="300">
+<img src="screenshots/flutter_06.png" width="300">
+<img src="screenshots/flutter_07.png" width="300">
+<img src="screenshots/flutter_08.png" width="300">
 
 ### Imagens por Quantidade
 
-![Imagens por Quantidade 1](screenshots/flutter_09.png)
-![Imagens por Quantidade 2](screenshots/flutter_10.png)
-![Imagens por Quantidade 3](screenshots/flutter_11.png)
+<img src="screenshots/flutter_09.png" width="300">
+<img src="screenshots/flutter_10.png" width="300">
+<img src="screenshots/flutter_11.png" width="300">
